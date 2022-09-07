@@ -76,29 +76,30 @@ export class FamilyGraph {
     var path2: RelationshipPath = { relations: [], individuals: {} };
     var nodesTemp: { [key: string]: Individal } = {};
     for (let i = 1; i < path.length; i++) {
-      source = path[i - 1];
-      target = path[i];
+      const s: string = path[i - 1];
+      const t: string = path[i];
 
       const relationship = this.graph.getDirectedEdgeAttribute(
-        source,
-        target,
+        s,
+        t,
         "relationship"
       );
 
       path2.relations.push({
-        sourceName: source,
-        targetName: target,
+        sourceName: s,
+        targetName: t,
         relationship: relationship,
       });
 
-      if (!(source in nodesTemp)) {
-        nodesTemp[source] = { name: source };
+      if (!(s in nodesTemp)) {
+        nodesTemp[s] = { name: s };
       }
-      if (!(target in nodesTemp)) {
-        nodesTemp[target] = { name: target };
+      if (!(t in nodesTemp)) {
+        nodesTemp[t] = { name: t };
       }
     }
     path2.individuals = nodesTemp;
+    console.log(path2);
     return path2;
   }
 }

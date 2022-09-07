@@ -28,8 +28,11 @@ function downloadRelationData() {
       header: true,
       complete: (results: any) => {
         familyGraph.buildGraphEdges(results.data as RelationRaw[]);
-        familyGraph.getPath("Eric Byers", "Nicholas Bentivenga");
       },
     }
   );
+}
+
+export function computePath() {
+  familyGraph.getPath("Sarah Bentivenga", "Anthony Testa");
 }
