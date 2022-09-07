@@ -27,11 +27,19 @@ interface FamilyGraphEdge {
 
 export class FamilyGraph {
   graph: DirectedGraph<FamilyGraphNode, FamilyGraphEdge>;
+  nodesLoaded: boolean = false;
+  edgesLoaded: boolean = false;
+
   constructor() {
     this.graph = new DirectedGraph();
   }
 
   public buildGraphNodes(rows: Individual[]) {
+    if (this.nodesLoaded) {
+      return;
+    }
+    this.nodesLoaded = true;
+
     for (const r of rows) {
       if (!r.name) {
         continue;
@@ -43,6 +51,11 @@ export class FamilyGraph {
   }
 
   public buildGraphEdges(rows: RelationRaw[]) {
+    if (this.edgesLoaded) {
+      return;
+    }
+    this.edgesLoaded = true;
+
     for (const r of rows) {
       if (!r.name_source || !r.name_target) {
         continue;
