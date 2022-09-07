@@ -39,6 +39,6 @@ async function downloadRelationData() {
   });
 }
 
-export function computePath() {
-  familyGraph.getPath("Sarah Bentivenga", "Anthony Testa");
+export function computePath(nameA: string, nameB: string) {
+  return familyGraph.getPath(nameA, nameB);
 }
