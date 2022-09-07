@@ -1,10 +1,10 @@
-import { doSheetWork } from "../model/googleApi";
+import { downloadFamilyData } from "../model/familyDataGetter";
 
 export const Index = () => {
   return (
     <>
       <h1> Welcome </h1>
-      <button onClick={doSheetWork}>RUN THING</button>
+      <button onClick={downloadFamilyData}>RUN THING</button>
     </>
   );
 };
