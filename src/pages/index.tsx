@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { computePath } from "../model/familyDataGetter";
 import { familyGraph, RelationshipPath } from "../model/familyGraph";
-import { Relation } from "../model/familyGraph";
+import { Relation, Individual } from "../model/familyGraph";
 import { Relationship, IdentityRelationship, PrimaryRelationship, SecondaryRelationship } from "../model/csvGraph";
 
 import styled from "@emotion/styled";
@@ -54,21 +54,35 @@ const HumanReadableRelationship: { [key in Relationship]: string } = {
   [IdentityRelationship.WORK_FRIEND_OF]: "is a work friend of",
   [IdentityRelationship.PLUS_ONE_OF]: "is a plus one of"
 };
-const Node = ({ relation: r }: { relation: Relation }) => (
+
+const SpecialName = styled.span`
+  color: white;
+  -webkit-text-stroke: 1px #ffd700;
+  text-shadow: 0px 2px 4px #d3d3d3;
+`;
+const Name = ({ name, person }: { name: string; person: Individual }) => (
+  <div>{person.important ? <SpecialName>{name}</SpecialName> : name}</div>
+);
+
+const Node = ({ relation: r, people: p }: { relation: Relation; people: { [key: string]: Individual } }) => (
   <NodeBox>
     <NodePerson>
       <Face />
-      <div>{r.sourceName}</div>
+      <div>
+        <Name name={r.sourceName} person={p[r.sourceName]} />
+      </div>
     </NodePerson>
     <NodeRelationship>{HumanReadableRelationship[r.relationship]}</NodeRelationship>
   </NodeBox>
 );
 
-const TerminalNode = ({ relation: r }: { relation: Relation }) => (
+const TerminalNode = ({ relation: r, people: p }: { relation: Relation; people: { [key: string]: Individual } }) => (
   <NodeBox>
     <NodePerson>
       <Face />
-      <div>{r.targetName}</div>
+      <div>
+        <Name name={r.targetName} person={p[r.targetName]} />
+      </div>
     </NodePerson>
   </NodeBox>
 );
@@ -76,9 +90,9 @@ const TerminalNode = ({ relation: r }: { relation: Relation }) => (
 const Results = ({ path }: { path: RelationshipPath }) => (
   <div>
     {path.relations.map((elem) => (
-      <Node relation={elem} />
+      <Node relation={elem} people={path.individuals} />
     ))}
-    <TerminalNode relation={path.relations.at(-1)!} />
+    <TerminalNode relation={path.relations.at(-1)!} people={path.individuals} />
   </div>
 );
 
