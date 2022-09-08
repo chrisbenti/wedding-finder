@@ -1,11 +1,18 @@
 import { DirectedGraph } from "graphology";
-import { IndividualRaw, RelationKeyInverses, RelationRaw } from "./csvGraph";
+import {
+  IndividualRaw,
+  RelationKeyInverses,
+  RelationRaw,
+  Relationship,
+  assertRelationship,
+  assertPrimaryRelationship,
+} from "./csvGraph";
 import { bidirectional } from "graphology-shortest-path/unweighted";
 
 export interface Relation {
   sourceName: string;
   targetName: string;
-  relationship: string;
+  relationship: Relationship;
 }
 
 export interface Individual {
@@ -66,7 +73,9 @@ export class FamilyGraph {
       if (!r.name_source || !r.name_target) {
         continue;
       }
-      const relationInverse = RelationKeyInverses[r.relationship];
+
+      const relationInverse =
+        RelationKeyInverses[assertPrimaryRelationship(r.relationship)];
       if (!relationInverse) {
         throw new Error(`Inverse relation of '${r.relationship}' not defined`);
       }
@@ -107,7 +116,7 @@ export class FamilyGraph {
       path2.relations.push({
         sourceName: s,
         targetName: t,
-        relationship: relationship,
+        relationship: assertRelationship(relationship),
       });
 
       if (!(s in nodesTemp)) {

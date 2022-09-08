@@ -2,6 +2,12 @@ import { useState, useCallback, useEffect } from "react";
 import { computePath } from "../model/familyDataGetter";
 import { familyGraph, RelationshipPath } from "../model/familyGraph";
 import { Relation } from "../model/familyGraph";
+import {
+  Relationship,
+  IdentityRelationship,
+  PrimaryRelationship,
+  SecondaryRelationship,
+} from "../model/csvGraph";
 
 import styled from "@emotion/styled";
 import { useBackgroundColor, useBodyColor } from "../hooks/useBackgroundColor";
@@ -42,13 +48,14 @@ const Face = styled.div`
   border-radius: 100%;
   margin-right: 0.5rem;
 `;
-const HumanReadableRelationship: { [key: string]: string | undefined } = {
-  "child-of": "is the child of",
-  "parent-of": "is the parent of",
-  "married-to": "is married to",
-  "friend-of": "is the friend of",
-  "step-child-of": "is the step-child of",
-  "step-parent-of": "is the step-parent of",
+const HumanReadableRelationship: { [key in Relationship]: string } = {
+  [PrimaryRelationship.CHILD_OF]: "is the child of",
+  [SecondaryRelationship.PARENT_OF]: "is the parent of",
+  [IdentityRelationship.MARRIED_TO]: "is married to",
+  [IdentityRelationship.FRIEND_OF]: "is the friend of",
+  [PrimaryRelationship.STEP_CHILD_OF]: "is the step-child of",
+  [SecondaryRelationship.STEP_PARENT_OF]: "is the step-parent of",
+  [IdentityRelationship.SIBLING_OF]: "is the sibling of",
 };
 const Node = ({ relation: r }: { relation: Relation }) => (
   <NodeBox>
