@@ -3,7 +3,6 @@ import { Relation, Individual } from "../model/familyGraph";
 import { Relationship, IdentityRelationship, PrimaryRelationship, SecondaryRelationship } from "../model/csvGraph";
 import styled from "@emotion/styled";
 import { COLORS } from "../colors";
-import { bounce } from "react-animations";
 import { keyframes } from "@emotion/css";
 
 const LINE_COLOR = COLORS.GREEN;
@@ -48,11 +47,30 @@ const HumanReadableRelationship: {
   [IdentityRelationship.WORK_FRIEND_OF]: "is a work friend of",
   [IdentityRelationship.PLUS_ONE_OF]: "is a plus one of"
 };
-const bounceAnimation = keyframes`${bounce}`;
+const shimmer = keyframes`
+  0% {
+      background-position: -400% 0;
+  }
+  50%, 100% {
+      background-position: 400% 0;
+  }
+`;
 const SpecialName = styled.div`
-  color: black;
-  animation: 1s ${bounceAnimation};
-  animation-iteration-count: infinite;
+  color: rgba(255, 255, 255, 0.1);
+  text-align: center;
+
+  // Configure the HSL 3rd variable to make greyer or whiter
+  // 0% black
+  // 100% white
+  background: linear-gradient(to right, black 10%, #ffd700 50%, black 90%);
+
+  background-size: 125px 100%;
+  background-clip: text;
+
+  animation: ${shimmer} 3s ease-in-out infinite;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  background-color: #222;
 `;
 const Name = ({ name, person }: { name: string; person: Individual }) => (
   <div>{person.important ? <SpecialName>{name}</SpecialName> : name}</div>
@@ -81,7 +99,11 @@ const TerminalNode = ({ relation: r, people: p }: { relation: Relation; people: 
 export const Results = ({ path }: { path: RelationshipPath }) => (
   <div>
     {path.relations.map((elem) => (
-      <Node relation={elem} people={path.individuals} />
+      <Node
+        key={[elem.sourceName, elem.relationship, elem.targetName].join(".")}
+        relation={elem}
+        people={path.individuals}
+      />
     ))}
     <TerminalNode relation={path.relations.at(-1)!} people={path.individuals} />
   </div>
