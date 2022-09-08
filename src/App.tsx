@@ -2,6 +2,7 @@ import { Index } from "./pages/index";
 import { HashRouter, Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { downloadFamilyData } from "./model/familyDataGetter";
+import { FamilyTreeView } from "./pages/familyTreeView";
 
 export const App = () => {
   const [dataLoaded, setDataLoaded] = useState(false);
@@ -18,6 +19,7 @@ export const App = () => {
   return dataLoaded ? (
     <HashRouter>
       <Routes>
+        <Route element={<FamilyTreeView />} path="tree" />
         <Route index element={<Index />} />
       </Routes>
     </HashRouter>

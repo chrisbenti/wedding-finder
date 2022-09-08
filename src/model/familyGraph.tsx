@@ -1,13 +1,14 @@
+import dagre from "dagre";
 import { DirectedGraph } from "graphology";
+import { bidirectional } from "graphology-shortest-path/unweighted";
 import {
+  assertPrimaryRelationship,
+  assertRelationship,
   IndividualRaw,
   RelationKeyInverses,
   RelationRaw,
-  Relationship,
-  assertRelationship,
-  assertPrimaryRelationship
+  Relationship
 } from "./csvGraph";
-import { bidirectional } from "graphology-shortest-path/unweighted";
 
 export interface Relation {
   sourceName: string;
@@ -28,11 +29,18 @@ export interface RelationshipPath {
 interface FamilyGraphNode {
   name: string;
   important?: boolean;
+  x?: number;
+  y?: number;
+  width?: number;
+  height?: number;
 }
 
 interface FamilyGraphEdge {
   relationship: string;
 }
+
+const NODE_HEIGHT = 100;
+const NODE_WIDTH = 100;
 
 export class FamilyGraph {
   graph: DirectedGraph<FamilyGraphNode, FamilyGraphEdge>;
@@ -127,6 +135,31 @@ export class FamilyGraph {
     path2.individuals = nodesTemp;
     console.log(path2);
     return path2;
+  }
+
+  public layout() {
+    var g = new dagre.graphlib.Graph();
+    g.setGraph({});
+    g.setDefaultEdgeLabel(() => {
+      return {};
+    });
+
+    this.graph.forEachNode((n) => {
+      g.setNode(n, { label: n, width: NODE_WIDTH, height: NODE_HEIGHT });
+    });
+
+    this.graph.forEachEdge((edgeKey) => {
+      const s = this.graph.source(edgeKey);
+      const t = this.graph.target(edgeKey);
+      g.setEdge(s, t);
+    });
+
+    dagre.layout(g);
+
+    g.nodes().forEach((n) => {
+      const attr = g.node(n);
+      this.graph.mergeNodeAttributes(n, attr);
+    });
   }
 }
 
