@@ -11,7 +11,8 @@ export const COLORS = {
   NAVY: "#15214B",
   WHITE: "#FFFFFF",
   BLACK: "#000000",
-  BLUE: "#f8fcff"
+  BLUE: "#f8fcff",
+  GREEN: "#186118"
 };
 
 export const LIGHT_COLORS: ColorPalette = {

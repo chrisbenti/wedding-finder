@@ -12,7 +12,7 @@ button {
 
 button {
   font-weight: 500;
-  text-transform: uppercase;
+  font-variant: small-caps;
   border: none;
   padding: 6px 30px;
   border: 1px solid transparent;

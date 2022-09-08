@@ -9,9 +9,9 @@ import { useBackgroundColor, useBodyColor } from "../hooks/useBackgroundColor";
 
 import { Navigation } from "../components/navbar";
 import { NameInput } from "../components/nameInput";
-import { GRAY_RANGE } from "../colors";
+import { COLORS, GRAY_RANGE } from "../colors";
 
-const LINE_COLOR = "green";
+const LINE_COLOR = COLORS.GREEN;
 const FACE_SIZE_PX = 40;
 const NodeBox = styled.div``;
 
@@ -31,7 +31,7 @@ const NodeRelationship = styled.div`
   // THE POWER OF GEOMETRY
   margin: 0 ${(FACE_SIZE_PX + CIRCLE_BORDER_PX * 2) / 2 - LINE_WIDTH_PX / 2}px;
 
-  padding: 0 2rem 1rem;
+  padding: 0.5rem 0 0.5rem 2rem;
 
   font-size: 1.1rem;
 `;
@@ -44,13 +44,13 @@ const Face = styled.div`
   margin-right: 0.5rem;
 `;
 const HumanReadableRelationship: { [key in Relationship]: string } = {
-  [PrimaryRelationship.CHILD_OF]: "is the child of",
-  [SecondaryRelationship.PARENT_OF]: "is the parent of",
+  [PrimaryRelationship.CHILD_OF]: "is a child of",
+  [SecondaryRelationship.PARENT_OF]: "is a parent of",
   [IdentityRelationship.MARRIED_TO]: "is married to",
-  [IdentityRelationship.FRIEND_OF]: "is the friend of",
-  [PrimaryRelationship.STEP_CHILD_OF]: "is the step-child of",
-  [SecondaryRelationship.STEP_PARENT_OF]: "is the step-parent of",
-  [IdentityRelationship.SIBLING_OF]: "is the sibling of",
+  [IdentityRelationship.FRIEND_OF]: "is a friend of",
+  [PrimaryRelationship.STEP_CHILD_OF]: "is a step-child of",
+  [SecondaryRelationship.STEP_PARENT_OF]: "is a step-parent of",
+  [IdentityRelationship.SIBLING_OF]: "is a sibling of",
   [IdentityRelationship.WORK_FRIEND_OF]: "is a work friend of",
   [IdentityRelationship.PLUS_ONE_OF]: "is a plus one of"
 };
@@ -144,7 +144,12 @@ export const Index = () => {
           </h2>
           <NameInput names={familyGraph.individuals} placeholder={"First Person"} setName={setNameA} />
           <NameInput names={familyGraph.individuals} placeholder={"Second Person"} setName={setNameB} />
-          <Button onClick={getAns}>COMPUTE PATH</Button>
+          <Button onClick={getAns}>Find Relation</Button>
+          {ans && (
+            <h3>
+              {ans?.relations.length} degree{ans?.relations.length > 1 ? "s" : ""} of Sarah Bentivenga
+            </h3>
+          )}
           {ans && <Results path={ans} />}
         </Frame>
       </Content>

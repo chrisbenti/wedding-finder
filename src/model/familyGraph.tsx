@@ -17,6 +17,7 @@ export interface Relation {
 
 export interface Individual {
   name: string;
+  important?: boolean;
 }
 
 export interface RelationshipPath {
@@ -26,6 +27,7 @@ export interface RelationshipPath {
 
 interface FamilyGraphNode {
   name: string;
+  important?: boolean;
 }
 
 interface FamilyGraphEdge {
@@ -57,9 +59,13 @@ export class FamilyGraph {
       if (!r.name) {
         continue;
       }
-      this.graph.addNode(r.name, {
+      var props: any = {
         name: r.name
-      });
+      };
+      if (r.name === "Sarah Bentivenga" || r.name === "Robert Cartmell") {
+        props["important"] = true;
+      }
+      this.graph.addNode(r.name, props);
     }
   }
 
@@ -110,10 +116,12 @@ export class FamilyGraph {
       });
 
       if (!(s in nodesTemp)) {
-        nodesTemp[s] = { name: s };
+        const attr = this.graph.getNodeAttributes(s);
+        nodesTemp[s] = { ...attr, name: s };
       }
       if (!(t in nodesTemp)) {
-        nodesTemp[t] = { name: t };
+        const attr = this.graph.getNodeAttributes(t);
+        nodesTemp[t] = { ...attr, name: t };
       }
     }
     path2.individuals = nodesTemp;
