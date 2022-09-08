@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { GRAY_RANGE } from "../colors";
 
 const NavBrandLink = styled.a`
   text-decoration: none;
@@ -15,7 +16,7 @@ const NavBrandTextContainer = styled.div`
 const NavBrandText = styled.div`
   font-size: 24px;
   font-weight: 500;
-  color: black;
+  color: ${GRAY_RANGE[800]};
 `;
 
 const NavBrandImg = styled.img`

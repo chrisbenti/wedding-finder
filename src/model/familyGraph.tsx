@@ -1,5 +1,5 @@
 import { DirectedGraph } from "graphology";
-import { Individual, RelationKeyInverses, RelationRaw } from "./csvGraph";
+import { IndividualRaw, RelationKeyInverses, RelationRaw } from "./csvGraph";
 import { bidirectional } from "graphology-shortest-path/unweighted";
 
 export interface Relation {
@@ -8,13 +8,13 @@ export interface Relation {
   relationship: string;
 }
 
-export interface Individal {
+export interface Individual {
   name: string;
 }
 
 export interface RelationshipPath {
   relations: Relation[];
-  individuals: { [key: string]: Individal };
+  individuals: { [key: string]: Individual };
 }
 
 interface FamilyGraphNode {
@@ -34,7 +34,13 @@ export class FamilyGraph {
     this.graph = new DirectedGraph();
   }
 
-  public buildGraphNodes(rows: Individual[]) {
+  public get individuals() {
+    return this.graph.mapNodes((n) => {
+      return { name: n };
+    });
+  }
+
+  public buildGraphNodes(rows: IndividualRaw[]) {
     if (this.nodesLoaded) {
       return;
     }
@@ -87,7 +93,7 @@ export class FamilyGraph {
     }
 
     var path2: RelationshipPath = { relations: [], individuals: {} };
-    var nodesTemp: { [key: string]: Individal } = {};
+    var nodesTemp: { [key: string]: Individual } = {};
     for (let i = 1; i < path.length; i++) {
       const s: string = path[i - 1];
       const t: string = path[i];

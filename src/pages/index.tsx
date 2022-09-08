@@ -1,12 +1,14 @@
 import path from "path";
 import { useState, useCallback, useEffect } from "react";
 import { computePath } from "../model/familyDataGetter";
-import { RelationshipPath } from "../model/familyGraph";
+import { familyGraph, RelationshipPath } from "../model/familyGraph";
 import { css } from "@emotion/react";
 
 import styled from "@emotion/styled";
-import { useBackgroundColor } from "../hooks/useBackgroundColor";
+import { useBackgroundColor, useBodyColor } from "../hooks/useBackgroundColor";
 import { Navigation } from "../components/navbar";
+import { NameInput } from "../components/nameInput";
+import { GRAY_RANGE } from "../colors";
 
 const Results = ({ path }: { path: RelationshipPath }) => (
   <div>
@@ -28,6 +30,7 @@ const Content = styled.div`
   &:after {
     content: "";
     background-image: url("/img/banner.jpeg");
+    background-size: cover;
     opacity: 0.6;
     top: 0;
     left: 0;
@@ -57,7 +60,8 @@ const Button = styled.button`
 `;
 
 export const Index = () => {
-  useBackgroundColor("#fcfcfc");
+  useBackgroundColor(GRAY_RANGE[50]);
+  useBodyColor(GRAY_RANGE[800]);
   const [nameA, setNameA] = useState("Anthony Testa");
   const [nameB, setNameB] = useState("Sarah Bentivenga");
   const [ans, setAns] = useState<null | RelationshipPath>();
@@ -77,13 +81,15 @@ export const Index = () => {
           <h2 style={{ textAlign: "center" }}>
             Sarah and Rob's <br /> Wedding Directory
           </h2>
-          <input
-            onChange={(e) => setNameA(e.currentTarget.value)}
-            placeholder="First Person"
+          <NameInput
+            names={familyGraph.individuals}
+            placeholder={"First Person"}
+            setName={setNameA}
           />
-          <input
-            onChange={(e) => setNameB(e.currentTarget.value)}
-            placeholder="Second Person"
+          <NameInput
+            names={familyGraph.individuals}
+            placeholder={"Second Person"}
+            setName={setNameB}
           />
           <Button onClick={getAns}>COMPUTE PATH</Button>
           {ans && <Results path={ans} />}

@@ -9,3 +9,14 @@ export function useBackgroundColor(color: string) {
         };
     });
 }
+
+
+export function useBodyColor(color: string) {
+    useEffect(() => {
+        document.body.style.color = color;
+
+        return () => {
+            document.body.style.color = "";
+        };
+    });
+}

@@ -1,6 +1,6 @@
 import Papa from "papaparse";
 import { familyGraph } from "./familyGraph";
-import { RelationRaw, Individual } from "./csvGraph";
+import { RelationRaw, IndividualRaw } from "./csvGraph";
 
 const baseDocumentId = "1kma7idppXhBzQFTCypZIosD5Pp-o5iIaoKlhnGCgzXU";
 const relationSheetId = "0";
@@ -14,7 +14,7 @@ export async function downloadFamilyData() {
         download: true,
         header: true,
         complete: async (results: any) => {
-          familyGraph.buildGraphNodes(results.data as Individual[]);
+          familyGraph.buildGraphNodes(results.data as IndividualRaw[]);
           await downloadRelationData();
           resolve(true);
         },

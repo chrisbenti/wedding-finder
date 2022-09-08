@@ -1,4 +1,4 @@
-export interface Individual {
+export interface IndividualRaw {
   individual_id: string;
   name: string;
   facebook_url: string;
