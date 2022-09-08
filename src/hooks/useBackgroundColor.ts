@@ -1,22 +1,21 @@
 import { useEffect } from "react";
 
 export function useBackgroundColor(color: string) {
-    useEffect(() => {
-        document.body.style.backgroundColor = color;
+  useEffect(() => {
+    document.body.style.backgroundColor = color;
 
-        return () => {
-            document.body.style.backgroundColor = "";
-        };
-    });
+    return () => {
+      document.body.style.backgroundColor = "";
+    };
+  });
 }
 
-
 export function useBodyColor(color: string) {
-    useEffect(() => {
-        document.body.style.color = color;
+  useEffect(() => {
+    document.body.style.color = color;
 
-        return () => {
-            document.body.style.color = "";
-        };
-    });
+    return () => {
+      document.body.style.color = "";
+    };
+  });
 }

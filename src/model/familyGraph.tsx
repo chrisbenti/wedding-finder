@@ -5,7 +5,7 @@ import {
   RelationRaw,
   Relationship,
   assertRelationship,
-  assertPrimaryRelationship,
+  assertPrimaryRelationship
 } from "./csvGraph";
 import { bidirectional } from "graphology-shortest-path/unweighted";
 
@@ -58,7 +58,7 @@ export class FamilyGraph {
         continue;
       }
       this.graph.addNode(r.name, {
-        name: r.name,
+        name: r.name
       });
     }
   }
@@ -74,24 +74,18 @@ export class FamilyGraph {
         continue;
       }
 
-      const relationInverse =
-        RelationKeyInverses[assertPrimaryRelationship(r.relationship)];
+      const relationInverse = RelationKeyInverses[assertPrimaryRelationship(r.relationship)];
       if (!relationInverse) {
         throw new Error(`Inverse relation of '${r.relationship}' not defined`);
       }
 
       this.graph.addEdgeWithKey(r.edge_id, r.name_source, r.name_target, {
-        relationship: r.relationship,
+        relationship: r.relationship
       });
 
-      this.graph.addEdgeWithKey(
-        `${r.edge_id}-back`,
-        r.name_target,
-        r.name_source,
-        {
-          relationship: relationInverse,
-        }
-      );
+      this.graph.addEdgeWithKey(`${r.edge_id}-back`, r.name_target, r.name_source, {
+        relationship: relationInverse
+      });
     }
   }
 
@@ -107,16 +101,12 @@ export class FamilyGraph {
       const s: string = path[i - 1];
       const t: string = path[i];
 
-      const relationship = this.graph.getDirectedEdgeAttribute(
-        s,
-        t,
-        "relationship"
-      );
+      const relationship = this.graph.getDirectedEdgeAttribute(s, t, "relationship");
 
       path2.relations.push({
         sourceName: s,
         targetName: t,
-        relationship: assertRelationship(relationship),
+        relationship: assertRelationship(relationship)
       });
 
       if (!(s in nodesTemp)) {

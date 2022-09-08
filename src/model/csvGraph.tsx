@@ -15,41 +15,36 @@ export enum IdentityRelationship {
   MARRIED_TO = "married-to",
   "FRIEND_OF" = "friend-of",
   "SIBLING_OF" = "sibling-of",
+  "WORK_FRIEND_OF" = "work-friend-of",
+  "PLUS_ONE_OF" = "plus-one-of"
 }
 
 export enum PrimaryRelationship {
   CHILD_OF = "child-of",
-  STEP_CHILD_OF = "step-child-of",
+  STEP_CHILD_OF = "step-child-of"
 }
 
 export enum SecondaryRelationship {
   PARENT_OF = "parent-of",
-  STEP_PARENT_OF = "step-parent-of",
+  STEP_PARENT_OF = "step-parent-of"
 }
 
 export const RelationKeyInverses: {
-  [key in PrimaryRelationship | IdentityRelationship]:
-    | SecondaryRelationship
-    | IdentityRelationship;
-} = {
+  [key in PrimaryRelationship]: SecondaryRelationship;
+} & { [key in IdentityRelationship]: IdentityRelationship } = {
   [PrimaryRelationship.CHILD_OF]: SecondaryRelationship.PARENT_OF,
   [PrimaryRelationship.STEP_CHILD_OF]: SecondaryRelationship.STEP_PARENT_OF,
   [IdentityRelationship.MARRIED_TO]: IdentityRelationship.MARRIED_TO,
   [IdentityRelationship.FRIEND_OF]: IdentityRelationship.FRIEND_OF,
   [IdentityRelationship.SIBLING_OF]: IdentityRelationship.SIBLING_OF,
+  [IdentityRelationship.WORK_FRIEND_OF]: IdentityRelationship.WORK_FRIEND_OF,
+  [IdentityRelationship.PLUS_ONE_OF]: IdentityRelationship.PLUS_ONE_OF
 };
 
-export type Relationship =
-  | IdentityRelationship
-  | PrimaryRelationship
-  | SecondaryRelationship;
+export type Relationship = IdentityRelationship | PrimaryRelationship | SecondaryRelationship;
 
-export const assertPrimaryRelationship = (
-  s: string
-): PrimaryRelationship | IdentityRelationship => {
-  const possibleTypes =
-    enumFromStringValue(IdentityRelationship, s) ??
-    enumFromStringValue(PrimaryRelationship, s);
+export const assertPrimaryRelationship = (s: string): PrimaryRelationship | IdentityRelationship => {
+  const possibleTypes = enumFromStringValue(IdentityRelationship, s) ?? enumFromStringValue(PrimaryRelationship, s);
 
   if (possibleTypes === undefined) {
     throw new Error(`${s} is not a known type of primary relationship`);
@@ -73,11 +68,6 @@ export const relationshipFromString = (s: string): Relationship | undefined => {
   );
 };
 
-function enumFromStringValue<T>(
-  enm: { [s: string]: T },
-  value: string
-): T | undefined {
-  return (Object.values(enm) as unknown as string[]).includes(value)
-    ? (value as unknown as T)
-    : undefined;
+function enumFromStringValue<T>(enm: { [s: string]: T }, value: string): T | undefined {
+  return (Object.values(enm) as unknown as string[]).includes(value) ? (value as unknown as T) : undefined;
 }

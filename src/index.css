@@ -1,8 +1,8 @@
-@import-normalize; 
+@import-normalize;
 
-
-body, button {
-  font-family: 'Cormorant Garamond', serif;
+body,
+button {
+  font-family: "Cormorant Garamond", serif;
   font-size: 24px;
 
   font-weight: 300;
@@ -17,7 +17,6 @@ button {
   padding: 6px 30px;
   border: 1px solid transparent;
 }
-
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;

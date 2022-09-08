@@ -8,34 +8,28 @@ const peopleSheetId = "282415891";
 
 export async function downloadFamilyData() {
   return new Promise((resolve, reject) => {
-    Papa.parse(
-      `https://docs.google.com/spreadsheets/d/${baseDocumentId}/pub?output=csv&gid=${peopleSheetId}`,
-      {
-        download: true,
-        header: true,
-        complete: async (results: any) => {
-          familyGraph.buildGraphNodes(results.data as IndividualRaw[]);
-          await downloadRelationData();
-          resolve(true);
-        },
+    Papa.parse(`https://docs.google.com/spreadsheets/d/${baseDocumentId}/pub?output=csv&gid=${peopleSheetId}`, {
+      download: true,
+      header: true,
+      complete: async (results: any) => {
+        familyGraph.buildGraphNodes(results.data as IndividualRaw[]);
+        await downloadRelationData();
+        resolve(true);
       }
-    );
+    });
   });
 }
 
 async function downloadRelationData() {
   return new Promise((resolve, reject) => {
-    Papa.parse(
-      `https://docs.google.com/spreadsheets/d/${baseDocumentId}/pub?output=csv&gid=${relationSheetId}`,
-      {
-        download: true,
-        header: true,
-        complete: (results: any) => {
-          familyGraph.buildGraphEdges(results.data as RelationRaw[]);
-          resolve(true);
-        },
+    Papa.parse(`https://docs.google.com/spreadsheets/d/${baseDocumentId}/pub?output=csv&gid=${relationSheetId}`, {
+      download: true,
+      header: true,
+      complete: (results: any) => {
+        familyGraph.buildGraphEdges(results.data as RelationRaw[]);
+        resolve(true);
       }
-    );
+    });
   });
 }
 

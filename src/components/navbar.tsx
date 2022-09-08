@@ -22,13 +22,7 @@ const NavRight = styled.nav`
   display: flex;
 `;
 
-const Nav = ({
-  left,
-  right,
-}: {
-  left: React.ReactNode;
-  right: React.ReactNode;
-}) => {
+const Nav = ({ left, right }: { left: React.ReactNode; right: React.ReactNode }) => {
   return (
     <NavFixedPositon>
       <NavContainer>

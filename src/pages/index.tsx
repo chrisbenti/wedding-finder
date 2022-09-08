@@ -2,12 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import { computePath } from "../model/familyDataGetter";
 import { familyGraph, RelationshipPath } from "../model/familyGraph";
 import { Relation } from "../model/familyGraph";
-import {
-  Relationship,
-  IdentityRelationship,
-  PrimaryRelationship,
-  SecondaryRelationship,
-} from "../model/csvGraph";
+import { Relationship, IdentityRelationship, PrimaryRelationship, SecondaryRelationship } from "../model/csvGraph";
 
 import styled from "@emotion/styled";
 import { useBackgroundColor, useBodyColor } from "../hooks/useBackgroundColor";
@@ -56,6 +51,8 @@ const HumanReadableRelationship: { [key in Relationship]: string } = {
   [PrimaryRelationship.STEP_CHILD_OF]: "is the step-child of",
   [SecondaryRelationship.STEP_PARENT_OF]: "is the step-parent of",
   [IdentityRelationship.SIBLING_OF]: "is the sibling of",
+  [IdentityRelationship.WORK_FRIEND_OF]: "is a work friend of",
+  [IdentityRelationship.PLUS_ONE_OF]: "is a plus one of"
 };
 const Node = ({ relation: r }: { relation: Relation }) => (
   <NodeBox>
@@ -63,9 +60,7 @@ const Node = ({ relation: r }: { relation: Relation }) => (
       <Face />
       <div>{r.sourceName}</div>
     </NodePerson>
-    <NodeRelationship>
-      {HumanReadableRelationship[r.relationship]}
-    </NodeRelationship>
+    <NodeRelationship>{HumanReadableRelationship[r.relationship]}</NodeRelationship>
   </NodeBox>
 );
 
@@ -147,16 +142,8 @@ export const Index = () => {
           <h2 style={{ textAlign: "center" }}>
             Sarah and Rob's <br /> Wedding Directory
           </h2>
-          <NameInput
-            names={familyGraph.individuals}
-            placeholder={"First Person"}
-            setName={setNameA}
-          />
-          <NameInput
-            names={familyGraph.individuals}
-            placeholder={"Second Person"}
-            setName={setNameB}
-          />
+          <NameInput names={familyGraph.individuals} placeholder={"First Person"} setName={setNameA} />
+          <NameInput names={familyGraph.individuals} placeholder={"Second Person"} setName={setNameB} />
           <Button onClick={getAns}>COMPUTE PATH</Button>
           {ans && <Results path={ans} />}
         </Frame>

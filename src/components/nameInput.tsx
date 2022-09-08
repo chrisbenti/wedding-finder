@@ -14,7 +14,7 @@ type SelectOption = { value: string; label: string };
 export const NameInput = ({
   names,
   placeholder,
-  setName,
+  setName
 }: {
   names: Individual[];
   placeholder?: string;
@@ -24,9 +24,9 @@ export const NameInput = ({
     ...names.map((d) => {
       return {
         value: d.name,
-        label: d.name,
+        label: d.name
       };
-    }),
+    })
   ];
 
   const customStyle = {
@@ -35,22 +35,22 @@ export const NameInput = ({
       borderBottom: `1px solid ${GRAY_RANGE[300]}`,
       color: state.isSelected ? GRAY_RANGE[900] : GRAY_RANGE[900],
       backgroundColor: state.isSelected ? GRAY_RANGE[200] : GRAY_RANGE[100],
-      padding: "0.75rem 1rem",
+      padding: "0.75rem 1rem"
     }),
     control: (provided: any, state: any) => ({
       ...provided,
       backgroundColor: COLORS.BLUE,
-      border: `1px solid ${GRAY_RANGE[200]}`,
+      border: `1px solid ${GRAY_RANGE[200]}`
     }),
     menuList: (provided: any, state: any) => ({
       ...provided,
       padding: 0,
-      border: `1px solid ${GRAY_RANGE[300]}`,
+      border: `1px solid ${GRAY_RANGE[300]}`
     }),
     valueContainer: (provided: any, state: any) => ({
       ...provided,
-      padding: "0.25rem 1rem",
-    }),
+      padding: "0.25rem 1rem"
+    })
   };
 
   return (
@@ -62,10 +62,7 @@ export const NameInput = ({
         classNamePrefix="select"
         placeholder={placeholder}
         styles={customStyle}
-        onChange={(
-          newValue: SingleValue<SelectOption>,
-          actionMeta: ActionMeta<SelectOption>
-        ) => {
+        onChange={(newValue: SingleValue<SelectOption>, actionMeta: ActionMeta<SelectOption>) => {
           setName(newValue?.value);
         }}
       />
