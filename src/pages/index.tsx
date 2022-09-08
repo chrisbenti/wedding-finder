@@ -5,11 +5,14 @@ import { Relation, Individual } from "../model/familyGraph";
 import { Relationship, IdentityRelationship, PrimaryRelationship, SecondaryRelationship } from "../model/csvGraph";
 
 import styled from "@emotion/styled";
-import { useBackgroundColor, useBodyColor } from "../hooks/useBackgroundColor";
+import { useBackgroundColor } from "../hooks/useBackgroundColor";
+import { useTextColor } from "../hooks/useTextColor";
 
 import { Navigation } from "../components/navbar";
 import { NameInput } from "../components/nameInput";
 import { COLORS, GRAY_RANGE } from "../colors";
+import { bounce } from "react-animations";
+import { keyframes } from "@emotion/css";
 
 const LINE_COLOR = COLORS.GREEN;
 const FACE_SIZE_PX = 40;
@@ -55,11 +58,14 @@ const HumanReadableRelationship: { [key in Relationship]: string } = {
   [IdentityRelationship.PLUS_ONE_OF]: "is a plus one of"
 };
 
-const SpecialName = styled.span`
-  color: white;
-  -webkit-text-stroke: 1px #ffd700;
-  text-shadow: 0px 2px 4px #d3d3d3;
+const bounceAnimation = keyframes`${bounce}`;
+
+const SpecialName = styled.div`
+  color: black;
+  animation: 1s ${bounceAnimation};
+  animation-iteration-count: infinite;
 `;
+
 const Name = ({ name, person }: { name: string; person: Individual }) => (
   <div>{person.important ? <SpecialName>{name}</SpecialName> : name}</div>
 );
@@ -136,7 +142,8 @@ const Button = styled.button`
 
 export const Index = () => {
   useBackgroundColor(GRAY_RANGE[50]);
-  useBodyColor(GRAY_RANGE[800]);
+  useTextColor(GRAY_RANGE[800]);
+
   const [nameA, setNameA] = useState("Anthony Testa");
   const [nameB, setNameB] = useState("Sarah Bentivenga");
   const [ans, setAns] = useState<null | RelationshipPath>();
