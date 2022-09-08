@@ -1,14 +1,17 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { NavBrand } from "./navbrand";
+import { GRAY_RANGE } from "../colors";
 
 const NavFixedPositon = styled.div`
-  // position: fixed;
+  position: fixed;
   width: 100%;
   // max-width: 1440px;
   top: 0;
+  z-index: 1000;
 `;
 const NavContainer = styled.nav`
+  background-color: ${GRAY_RANGE[50]};
   display: flex;
   justify-content: space-between;
   padding: 1em 2em;

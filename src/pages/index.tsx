@@ -15,6 +15,8 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 50px;
+  padding-top: 80px;
 
   &:after {
     content: "";
@@ -35,6 +37,9 @@ const Content = styled.div`
 
 const Frame = styled.div`
   background-color: white;
+  box-shadow: 0px 0px 50px 10px rgba(0, 0, 0, 0.42);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+
   display: flex;
   flex-direction: column;
   align-items: center;
