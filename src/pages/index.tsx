@@ -20,16 +20,15 @@ const NodePerson = styled.div`
 `;
 
 const LINE_WIDTH_PX = 4;
+const CIRCLE_BORDER_PX = 2;
 const NodeRelationship = styled.div`
   text-align: center;
   border-left: solid ${LINE_WIDTH_PX}px ${LINE_COLOR};
 
   // This math is to make it so that the vertical line
   // is centered to the face circle.
-  // FACE_TOTAL_SIZE / 2 + L/2 from the left
-  // where FACE_TOTAL_SIZE = FACE_SIZE + LINE_WIDTH * 2
-  // tl;dr it's centered by the power of geometry
-  margin: 0 ${(FACE_SIZE_PX + LINE_WIDTH_PX) / 2}px;
+  // THE POWER OF GEOMETRY
+  margin: 0 ${(FACE_SIZE_PX + CIRCLE_BORDER_PX * 2) / 2 - LINE_WIDTH_PX / 2}px;
 
   padding: 0 2rem 1rem;
 
@@ -39,10 +38,18 @@ const NodeRelationship = styled.div`
 const Face = styled.div`
   height: ${FACE_SIZE_PX}px;
   width: ${FACE_SIZE_PX}px;
-  border: solid ${LINE_WIDTH_PX}px ${LINE_COLOR};
+  border: solid ${CIRCLE_BORDER_PX}px ${LINE_COLOR};
   border-radius: 100%;
   margin-right: 0.5rem;
 `;
+const HumanReadableRelationship: { [key: string]: string | undefined } = {
+  "child-of": "is the child of",
+  "parent-of": "is the parent of",
+  "married-to": "is married to",
+  "friend-of": "is the friend of",
+  "step-child-of": "is the step-child of",
+  "step-parent-of": "is the step-parent of",
+};
 const Node = ({ relation: r }: { relation: Relation }) => (
   <NodeBox>
     <NodePerson>
@@ -50,7 +57,7 @@ const Node = ({ relation: r }: { relation: Relation }) => (
       <div>{r.sourceName}</div>
     </NodePerson>
     <NodeRelationship>
-      is the {r.relationship.replace("-", " ")}
+      {HumanReadableRelationship[r.relationship]}
     </NodeRelationship>
   </NodeBox>
 );
@@ -82,6 +89,7 @@ const Content = styled.div`
     content: "";
     background-image: url("/img/banner.jpeg");
     background-size: cover;
+    background-position: bottom;
     opacity: 0.6;
     top: 0;
     left: 0;
