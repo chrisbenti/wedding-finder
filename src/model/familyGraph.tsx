@@ -1,5 +1,7 @@
 import dagre from "dagre";
 import { DirectedGraph } from "graphology";
+import { circular } from "graphology-layout";
+import forceAtlas2 from "graphology-layout-forceatlas2";
 import { bidirectional } from "graphology-shortest-path/unweighted";
 import {
   assertPrimaryRelationship,
@@ -41,6 +43,7 @@ interface FamilyGraphEdge {
 
 const NODE_HEIGHT = 100;
 const NODE_WIDTH = 100;
+const NODE_SIZE = 10;
 
 export class FamilyGraph {
   graph: DirectedGraph<FamilyGraphNode, FamilyGraphEdge>;
@@ -68,7 +71,9 @@ export class FamilyGraph {
         continue;
       }
       var props: any = {
-        name: r.name
+        name: r.name,
+        size: NODE_SIZE,
+        label: r.name
       };
       if (r.name === "Sarah Bentivenga" || r.name === "Robert Cartmell") {
         props["important"] = true;
@@ -145,7 +150,7 @@ export class FamilyGraph {
     });
 
     this.graph.forEachNode((n) => {
-      g.setNode(n, { label: n, width: NODE_WIDTH, height: NODE_HEIGHT });
+      g.setNode(n, { label: n, width: NODE_WIDTH, height: NODE_HEIGHT, size: NODE_HEIGHT });
     });
 
     this.graph.forEachEdge((edgeKey) => {
@@ -160,6 +165,11 @@ export class FamilyGraph {
       const attr = g.node(n);
       this.graph.mergeNodeAttributes(n, attr);
     });
+  }
+
+  public layout2() {
+    circular.assign(this.graph);
+    forceAtlas2.assign(this.graph, 50);
   }
 }
 

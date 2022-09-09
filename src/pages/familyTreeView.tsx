@@ -3,7 +3,7 @@ import "@react-sigma/core/lib/react-sigma.min.css";
 import { familyGraph } from "../model/familyGraph";
 
 export const FamilyTreeView = () => {
-  familyGraph.layout();
+  familyGraph.layout2();
   return (
     <SigmaContainer style={{ height: "100vh", width: "100vw" }} graph={familyGraph.graph}>
       <ControlsContainer position={"bottom-right"}>
